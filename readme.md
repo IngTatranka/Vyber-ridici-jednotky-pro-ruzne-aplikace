@@ -70,7 +70,7 @@ Proč se u bezpečnostních aplikací v letectví nebo jaderné energetice stál
 
 Důvode je determinismus, předvídatelnost a certifikovatelnost. Vícejádrové procesory s velkou RAM a složitými mezipaměťmi využívají predikci skoků, sdílené sběrnice a dynamické plánování úloh. To způsobuje že doba vykonání instrukcí není zcela konstantní, což je pro bezpečnostní kritické systémy nepřípustné. Jednoduché MCU nebo FPGA umožňují exaktně dokázat a verifikovat každý takt procesoru a stav hardwaru.
 
-`...`
+
 
 ---
 
