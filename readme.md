@@ -79,11 +79,55 @@ Proč se u bezpečnostních aplikací v letectví nebo jaderné energetice stál
 
 1. **Typy pamětí:**
    - Jaký je zásadní rozdíl mezi pamětí **RAM**, **Flash** a **EEPROM** v mikrokontroléru/PLC z hlediska uchování dat po odpojení napájení a rychlosti zápisu?
+
+
+   
+RAM (Volatilní paměť): Data se po odpojení napájení ztratí. Je extrémně rychlá pro čtení i zápis, slouží pro běh programu, zásobník a aktuální proměnné.
+
+Flash (Non-volatilní paměť): Data uchovává i bez napájení. Používá se pro uložení samotného firmwaru/programu. Zápis je pomalejší a má omezený počet cyklů přepsání (blokové mazání).
+
+EEPROM (Non-volatilní paměť): Data uchovává bez napájení. Slouží k ukládání konfiguračních parametrů, kalibrací a stavů, které se mění za provozu. Umožňuje zápis po jednotlivých bytech a snese vyšší počet přepisů než Flash, ale má menší kapacitu.
+
+
+
+
 2. **Reálný čas a determinismus:**
    - Proč pro řízení rychlého technologického děje (např. reakce na nouzové zastavení do 5 ms) použijeme spíše **MCU / PLC** než běžný operační systém na **MPU** (např. Raspberry Pi s OS Linux)?
+
+
+  
+Běžný operační systém na MPU (např. Linux bez RT patchů) je multitaskingový a spravuje mnoho procesů na pozadí. Nemá garantovaný čas reakce (non-real-time), takže může dojít k zpoždění (latenci) v řádu desítek až stovek milisekund kvůli plánovači úloh. MCU nebo PLC pracují deterministicky (cyklicky s pevným časem odezvy nebo s reálným operačním systémem RTOS), což zaručuje, že požadavek na nouzové zastavení bude zpracován okamžitě a v garantovaném čase.
+
+
+
+
 3. **Odolnost a IP krytí:**
    - Dešifrujte označení **IP68** (co přesně znamená první číslice 6 a druhá číslice 8).
    - Jaké minimální krytí IP musí mít zařízení určené pro instalaci venku pod přístřeškem, kde hrozí stříkající voda a prach?
    - Jak se liší konstrukce běžného kancelářského PC od **průmyslového PC (iPC)** (např. z hlediska chlazení, napájení, vibrací a konektorů)?
+
+
+
+
+První číslice (6): Úplná ochrana před vniknutím prachu (prachotěsné).
+
+Druhá číslice (8): Ochrana proti potopení – zařízení je chráněno při trvalém ponoření do vody za podmínek stanovených výrobcem.
+
+Minimální krytí IP venku pod přístřeškem (stříkající voda a prach):
+
+Minimálně IP54 (ochrana proti prachu a stříkající vodě ze všech směrů). Pro vyšší jistotu se v průmyslu často volí IP65.
+
+Rozdíl mezi kancelářským PC a průmyslovým PC (iPC):
+
+Chlazení: Kancelářské PC spoléhá na ventilátory (nasává prach); iPC má pasivní chlazení (masivní hliníková žebra) nebo uzavřenou skříň s prachovými filtry.
+
+Napájení: iPC mívá průmyslové zdroje s širším rozsahem vstupního napětí (např. stabilních 24 V DC) a galvanickým oddělením.
+
+Vibrace: iPC používá SSD disky místo mechanických pevných disků a má pevně uchycené desky plošných spojů odolné vůči otřesům ve výrobě.
+
+Konektory: iPC disponuje robustními šroubovacími konektory (M12, D-SUB) a průmyslovými rozhraními (RS485, galvanicky oddělené Ethernetové porty).
+
+
+
 
 ---
