@@ -211,32 +211,32 @@ Jste v roli projektanta automatizace. Zákazník poptává zhotovení řízení 
 1. **Sestavte tabulku I/O bilance** a spočtěte celkový počet signálů. Připočtěte rezervu min. 20 % pro budoucí rozšíření:
 
 | Typ signálu | Požadavek aplikace (kusy) | Popis signálů v aplikaci | Počet po započtení rezervy (+20 %) |
-| :--- | :--- | :--- | :--- |
-| **Digitální vstup (DI)** | `...` | `...` | `...` |
-| **Digitální výstup (DO) – reléový** | `...` | `...` | `...` |
-| **Digitální výstup (DO) – tranzistorový** | `...` | `...` | `...` |
-| **Analogový vstup (AI)** | `...` | `...` | `...` |
-| **Analogový výstup (AO)** | `...` | `...` | `...` |
+| :--- | :---: | :--- | :---: |
+| **Digitální vstup (DI)** | 4 | 3× plovákový spínač + 1× termistorové relé | **5** |
+| **Digitální výstup (DO) – reléový** | 2 | 2× stykač hlavního a záložního čerpadla | **3** |
+| **Digitální výstup (DO) – tranzistorový** | 1 | 1× opticko-akustický maják (24 V DC / 0,3 A) | **2** |
+| **Analogový vstup (AI)** | 1 | 1× hydrostatická sonda (4–20 mA) | **2** |
+| **Analogový výstup (AO)** | 1 | 1× řízení otáčení frekvenčního měniče (0–10 V) | **2** |
 
 2. **Výběr konkrétního hardwaru z katalogu výrobce:**
    - Navrhněte konkrétní přístroj z praxe (např. *Siemens LOGO! 24RCE + rozšiřující moduly*, *Siemens S7-1200 CPU 1212C/1214C DC/DC/RLY*, *Schneider Modicon M221*, *Eaton easyE4-UC-12RC1*, *WAGO 750*, případně průmyslový IoT kontrolér typu *UniPi Neuron*).
    - Uveďte:
-     - Výrobce a přesný model CPU: `...`
-     - Objednací kód (Part Number / Order Code): `...`
-     - Rozšiřující moduly (pokud jsou nutné pro AI 4–20 mA nebo AO 0–10 V): `...`
-     - Napájecí napětí zvolené jednotky: `...`
-     - Jak je vyřešeno odesílání dat na dispečink: `...`
-     - Odkaz na technický list (datasheet): `...`
+     - Výrobce a přesný model CPU: **Siemens SIMATIC S7-1200, CPU 1214C DC/DC/RLY**
+     - Objednací kód (Part Number / Order Code): **6ES7214-1AG40-0XB0**
+     - Rozšiřující moduly (pokud jsou nutné pro AI 4–20 mA nebo AO 0–10 V): **Signal Board SB 1231 (1× AI pro proudový signál 4–20 mA, obj. kód: 6ES7232-4HA30-0XB0 nebo odpovídající modul pro proudové měření, případně použití přesného rezistoru 500 $\Omega$ na integrovaný napěťový vstup).**
+     - Napájecí napětí zvolené jednotky: **24 V DC**
+     - Jak je vyřešeno odesílání dat na dispečink: **Integrovaný Ethernet port (PROFINET) s protokolem Modbus TCP, připojený na průmyslový LTE router (např. Teltonika RUT240 nebo Siemens CP 1242-1) pro bezdrátový přenos dat do vodárenského dispečinku.**
+     - Odkaz na technický list (datasheet): chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://cache.industry.siemens.com/dl/files/465/36932465/att_106119/v1/s71200_system_manual_en-US_en-US.pdf
      - Odkazy na další použité zdroje: `...`
 
 3. **Technické ověření z datasheetu:**
-   - Zvládá zvolená jednotka garantovaný provoz při -20 °C? Doložte údaj z datasheetu: `...`
-   - Jakým způsobem spínáte cívku stykače 230 V AC (reléový výstup jednotky přímo, nebo přes pomocné mezilehlé relé)? Zdůvodněte: `...`
+   - Zvládá zvolená jednotka garantovaný provoz při -20 °C? Doložte údaj z datasheetu: **ANO**
+   - Jakým způsobem spínáte cívku stykače 230 V AC (reléový výstup jednotky přímo, nebo přes pomocné mezilehlé relé)? Zdůvodněte: **Spínání je realizováno přes pomocná mezilehlá relé (interposing relays). Přestože reléové výstupy PLC dokážou spínat 230 V AC, použití mezilehlých relé zajišťuje vyšší galvanické oddělení, ochranu citlivých výstupů PLC před indukčními špičkami z cívek stykačů a snadnější servisní výměnu v případě opotřebení kontaktů vysokým spínacím počtem.**
 
 4. **Krytí rozváděče:**
    - Jaké minimální krytí **IP skříně** zvolíte? Jak v rozváděči zajistíte provoz v mrazech -20 °C a v letních vedrech?
-     - Zvolené krytí rozváděče: `...`
-     - Teplotní management skříně: `...`
+     - Zvolené krytí rozváděče: **Minimálně IP65**
+     - Teplotní management skříně: **-20 až +45**
 
 > **Kritéria hodnocení úlohy 4 (bodování a známka):**
 > - :star: **Správnost I/O bilance a dimenzování (30 %):** Správný součet všech signálů, korektní rozlišení reléových vs. tranzistorových výstupů a správné započtení rezervy min. 20 %.
@@ -257,8 +257,9 @@ Jste v roli projektanta automatizace. Zákazník poptává zhotovení řízení 
 :star2: **Bonusová otázka k úloze 4:**
 Proč se u čerpadel v čistírnách odpadních vod a jímkách striktně upřednostňuje měření hladiny pomocí proudového signálu 4–20 mA před napěťovým signálem 0–10 V a proč se do jímky nepoužívá ultrazvukový senzor, pokud v ní vzniká hustá pěna?
 
-*Vaše odpověď:*
-`...`
+**Proč 4–20 mA: Drží stabilní signál na dlouhých kabelech a při výpadku (0 mA) hned odhalí přerušený vodič.**
+
+**Proč ne ultrazvuk: Pěna na odpadní vodě pohlcuje zvukové vlny a senzor měří nepřesně.**
 
 ---
 
