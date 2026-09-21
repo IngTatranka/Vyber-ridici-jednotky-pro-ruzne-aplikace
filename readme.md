@@ -79,42 +79,44 @@ Důvode je determinismus, předvídatelnost a certifikovatelnost. Vícejádrové
 1. **Typy pamětí v řídicích jednotkách:**
    - Doplňte porovnání pamětí z hlediska stálosti dat a rychlosti:
      - **RAM:** 
-	     - Je volatilní (energeticky závislá)? `[Ano / Ne]`
-	     - Rychlost zápisu: `...` 
-	     - K čemu se využívá v PLC/MCU: `...`
+	     - Je volatilní (energeticky závislá)? **ANO**
+	     - Rychlost zápisu: **EXTREMĚ VYSOKÁ** 
+	     - K čemu se využívá v PLC/MCU: **Ukládání proměnných, stavů a dat aktuálního běhu programu (pracovní paměť)**
      - **Flash (ROM):** 
-	     - Je volatilní? `[Ano / Ne]`
-	     - K čemu se využívá v PLC/MCU: `...`
+	     - Je volatilní? **NE**
+	     - K čemu se využívá v PLC/MCU: **Ukládání samotného uživatelského programu, firmwaru a trvalých dat.**
      - **EEPROM / NVRAM:** 
-	     - Je volatilní? `[Ano / Ne]`
-	     - K čemu se využívá v PLC/MCU: `...`
+	     - Je volatilní? **NE**
+	     - K čemu se využívá v PLC/MCU: **Ukládání konfiguračních parametrů, nastavení a dat, která je nutné uchovat i po vypnutí napájení (remanentní data).**
    - *Otázka z praxe:* Kam se v průmyslovém PLC ukládají aktuální provozní proměnné (např. čítače vyrobených kusů nebo motohodiny), aby se při nečekaném výpadku napájení neztratily (tzv. remanentní / retain data)?
-     - Odpověď: `...`
+     - Odpověď: **Do remanentní paměti (např. EEPROM, FRAM, nebo do RAM zálohované superkondenzátorem či baterií).**
 
 2. **Reálný čas a determinismus (Hard vs. Soft Real-Time):**
    - Proč pro reakci na nouzové zastavení lisu (požadavek reakce do 5 ms) použijeme PLC či mikrokontrolér s RTOS, a nikoliv běžné Raspberry Pi s operačním systémem Raspberry Pi OS (standardní Linux)?
-     - Odpověď: `...`
+     - Odpověď: **Běžný operační systém (jako je Raspberry Pi OS) je preemptivní multi-taskingový systém, který rozděluje výkon mezi mnoho procesů na pozadí (správa paměti, síťový provoz). To může způsobit neočekávanou prodlevu (latenci) v řádu desítek milisekund. Pro bezpečnostní funkce, jako je nouzové zastavení lisu (požadavek do 5 ms), je nutný deterministický systém (Hard Real-Time), který zaručuje přesný časový limit odezvy bez výkyvů.**
 
 3. **Odolnost vůči vlivům prostředí a dešifrování kódu IP:**
    - Dešifrujte kód **IP68**:
-     - První číslice (6): `...`
-     - Druhá číslice (8): `...`
+     - První číslice (6): **Úplná ochrana před vniknutím prachu (prachotěsné).**
+     - Druhá číslice (8): **Ochrana proti nepřetržitému ponoření do vody za podmínek určených výrobcem.**
    - Jaké minimální krytí IP musí mít rozváděč umístěný ve venkovním nekrytém prostředí, kde na něj přímo dopadá déšť a fouká polétavý prach?
-     - Označte správnou volbu: `[ ] IP20` | `[ ] IP44` | `[ ] IP65` | `[ ] IP00`
-     - Zdůvodnění: `...`
+     - Označte správnou volbu: `[ ] IP20` | `[ ] IP44` | **[X] IP65** | `[ ] IP00`
+     - Zdůvodnění: **Zdůvodnění: Stupeň IP65 zaručuje úplnou ochranu proti prachu (6) a ochranu proti tryskající vodě ze všech směrů (5), což spolehlivě odolá dešti a polétavému prachu ve venkovním prostředí.**
 
 4. **Konstrukční rozdíly kancelářského PC vs. průmyslového iPC:**
    - Vyberte a doplňte hlavní odlišnosti:
      - *Chlazení:* 
-	     - Kancelářské PC: `...` 
-	     - vs. iPC: `...`
+	     - Kancelářské PC: **Aktivní chlazení pomocí ventilátorů** 
+	     - vs. iPC: **Pasivní chlazení s masivním žebrováním, hermeticky uzavřené proti prachu.**
      - *Napájecí napětí a filtrace:* 
-	     - Kancelářské PC: `...` 
-	     - vs. iPC: `...`
-     - *Odolnost proti otřesům a vibracím:* `...`
+	     - Kancelářské PC: **Standardní síťové napětí 230 V AC přes běžný zdroj** 
+	     - vs. iPC: **Průmyslový standard 24 V DC s robustní filtrací proti elektromagnetickému rušení (EMI) a výkyvům napětí.**
+     - *Odolnost proti otřesům a vibracím:*
+     - Kancelářské PC: **Nízká, kvůli HDD**
+     - vs. iPC : **Vysoká mechanická odolnost, kvůli SSD**
      - *Způsob montáže:* 
-	     - Kancelářské PC: na stůl/pod stůl 
-	     - vs. iPC: `...`
+	     - Kancelářské PC: **na stůl/pod stůl** 
+	     - vs. iPC: **Na DIN lištu, do panelu**
 
 > :key: **Vysvětlení pojmů a odborné zdroje:**
 > - **Determinismus (Real-Time):** Vlastnost systému, která zaručuje, že odezva na vstupní událost proběhne vždy v přesně definovaném a předvídatelném čase (deadline). V *Hard Real-Time* systémech znamená nedodržení časového limitu fatální havárii celého procesu. 
@@ -131,9 +133,9 @@ Důvode je determinismus, předvídatelnost a certifikovatelnost. Vícejádrové
 :star2: **Bonusová otázka k úloze 2:**
 Co označuje doplňkové písmeno **K** v kódu krytí **IP69K** a v jakém průmyslovém odvětví je toto krytí bezpodmínečně vyžadováno?
 
-*Vaše odpověď:*
-`...`
+*Vaše odpověď:* **Označuje specifickou ochranu proti vysokotlakému čištění horkou vodou nebo olejem (čištění paroměrnou tryskou pod vysokým tlakem).**
 
+**Toto krytí je bezpodmínečně vyžadováno v potravinářském průmyslu, farmacii a při výrobě nápojů**
 ---
 
 ### 3. Rozhodovací matice platforem (MCU vs. PLC vs. iPC) 
