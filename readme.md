@@ -181,8 +181,8 @@ Vyplňte rozhodovací matici. Jako vzor poslouží vyplněný sloupec pro **Vzor
 :star2: **Bonusová otázka k úloze 3:**
 Co je to tzv. **SoftPLC** a jak umožňuje průmyslovému PC (iPC) kombinovat výhody operačního systému Windows/Linux a deterministického řízení reálného času v jediném fyzickém počítači?
 
-*Vaše odpověď:*
-`...`
+**SoftPLC je softwarové řešení, které proměňuje běžný počítač (často průmyslové PC – iPC) s běžným operačním systémem (např. Windows nebo Linux) v plnohodnotné programovatelné logické automat (PLC).**
+**využíva windows kvůli AI a determnismus kvůli rychlosti**
 
 ---
 
