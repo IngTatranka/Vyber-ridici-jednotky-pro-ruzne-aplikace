@@ -72,7 +72,7 @@ Důvode je determinismus, předvídatelnost a certifikovatelnost. Vícejádrové
 
 
 
-	### 2. Parametry, paměti a provozní odolnost (IP krytí)
+### 2. Parametry, paměti a provozní odolnost (IP krytí)
 
 *Časová dotace: max. 15 minut | Mírně náročnější úloha propojující parametry a praxi*
 
