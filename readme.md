@@ -334,11 +334,13 @@ Představte si, že management firmy rozhoduje mezi dvěma variantami řízení 
 
 | Aspekt životního cyklu | Varianta 1 (Custom Embedded MCU) | Varianta 2 (Průmyslové PLC) |
 | :--- | :--- | :--- |
-| **Dostupnost náhradních dílů za 10 let** | `...` | `...` |
-| **Servisovatelnost podnikovým elektrikářem** | `...` | `...` |
-| **Doba odstávky linky při poruše CPU** | `...` | `...` |
-| **Cena vývojových nástrojů a licencí IDE** | `...` | `...` |
-| **Závěrečné doporučení (kterou variantu vybrat a proč)** | `...` | `...` |
+| **Dostupnost náhradních dílů za 10 let** | Nízká / Nejistá za pár let se přestane vyrábět a musí se redesignovat a tím pozastavit linku | PLC obvykle zajišťují dlouhodobou podporu a náhradní moduly 10-15let |
+| **Servisovatelnost podnikovým elektrikářem** | údržbář nedokáže diagnostikovat chybu na desce plošných spojů bez schémat nebo firmweru | PLC je modulární, elektrikář může diagnostikovat vstupy/výstupy a vadný modul vyměnit, přehledné chybové hlášení, LED indikace stavu |
+| **Doba odstávky linky při poruše CPU** | hodiny až dny, čekání na nový návrh desky | "kus za kus" na DIN liště, **nahrání zálohy** projektu a okamžitý návrat do provozu |
+| **Cena vývojových nástrojů a licencí IDE** | Využití volně dostupných nástrojů (GCC, VS Code, Arduino IDE | Pořizovací náklady na licencované průmyslové inženýrské prostředí (např. TIA Portal, Studio 5000), standardizované prostředí |
+| **Závěrečné doporučení (kterou variantu vybrat a proč)** | Vhodné především tam, kde je rozhodující nízká cena kusu a firma má vlastní schopnosti pro vývoj a dlouhodobou podporu | Vyšší počáteční investice se mnohonásobně vrátí díky minimálním odstávkám, spolehlivosti a snadné údržbě|
+
+**osobně bych zvolil variantu B, protože když se linka zpozdí cca 2 dny je varianta A dražší**
 
 > :key: **Vysvětlení pojmů a odborné zdroje:**
 > - **CAPEX (Capital Expenditure)**: Zjednodušeně jde o jednorázové kapitálové výdaje na pořízení samotného zařízení (hardware, licence).
@@ -355,5 +357,5 @@ Představte si, že management firmy rozhoduje mezi dvěma variantami řízení 
 :star2: **Bonusová otázka k úloze 6:**
 Co znamená pojem **MTBF (Mean Time Between Failures)** v datasheetech průmyslových řídicích jednotek a jaký vliv má okolní teplota v rozváděči na tuto hodnotu (tzv. Arrheniovo pravidlo)?
 
-*Vaše odpověď:*
-`...`
+**každých 10  stupňů více než normalizováno se doba zkrátí na polovinu**
+
