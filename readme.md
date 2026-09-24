@@ -159,7 +159,7 @@ Vyplňte rozhodovací matici. Jako vzor poslouží vyplněný sloupec pro **Vzor
 | :--- | :--- | :--- | :--- | :--- |
 | **Doporučená platforma (MCU / PLC / iPC)** | Programovatelné relé / kompaktní PLC (např. Siemens LOGO!, Eaton easyE4). | **MCU / Embedded SoC** (např. ESP32, nRF52) | **Kompaktní/modulární PLC** (např. Siemens S7-1200, Schneider Electric M221) | **Průmyslové PC (iPC)** (např. Advantech, Beckhoff s GPU / silným CPU) |
 | **Pořizovací cena HW na 1 kus (nízká < 500 Kč / střední 5–30 tis. Kč / vysoká > 50 tis. Kč)** | Střední (cca 3 500 – 6 000 Kč). | **Nízká** (řádově stovky Kč, vzhledem k masové sérii 10 000 ks/rok) | **Střední** (cca 15 – 35 tis. Kč dle rozšiřujících I/O modulů a bezpečnostní závoru) | **Vysoká** (nad 50 tis. Kč kvůli výkonnému CPU, GPU pro AI a průmyslovým kamerám) |
-| **Primární programovací jazyk (C/C++/MicroPython vs. IEC 61131-3 ST/LAD vs. Python/C#/C++ pod OS)** | FBD / LAD (grafické funkční bloky nebo liniové schéma dle IEC 61131-3). | **C / C++** (případně MicroPython / ESP-IDF) | **IEC 61131-3 LAD / ST** (příčkový diagram / strukturovaný text) | **Python / C++** pod OS Linux/Windows s využitím frameworků pro neuronové sítě (PyTorch/TensorRT) |
+| **Primární programovací jazyk (C/C++/MicroPython vs. IEC 61131-3 ST/LAD vs. Python/C#/C++ pod OS)** | FBD / LAD (grafické funkční bloky nebo liniové schéma dle IEC 61131-3). | C++ (Arduino IDE / PlatformIO) | **IEC 61131-3 LAD / ST** (příčkový diagram / strukturovaný text) | **Python / C++** pod OS Linux/Windows s využitím frameworků pro neuronové sítě (PyTorch/TensorRT) |
 | **Klíčový technický argument pro volbu (např. spotřeba, determinismus, grafický výkon)** | Montáž přímo na DIN lištu v rozváděči, integrovaný displej pro nastavení časovačů přímo na místě, robustní reléové výstupy pro motor a semafor, napájení 24 V DC / 230 V AC bez nutnosti vývoje vlastního plošného spoje. | **Minimální spotřeba energie** (bateriový provoz, hluboký spánek), bezdrátová konektivita (ZigBee/Wi-Fi) na jednom čipu a nízká cena při velkovýrobě. | **Vysoká spolehlivost a determinismus 24/7**, snadná diagnostika pomocí LED, jednoduchá údržba a servis místním elektrikářem v jazyce LAD. | **Extrémní výpočetní výkon** pro zpracování obrazu v reálném čase, podpora GigE Vision rozhraní pro kamery a integrace do podnikové SQL/MES databáze. |
 | **Hlavní riziko při volbě špatné platformy (proč by neuspěly ostatní dvě varianty)** | MCU: Nutnost vývoje vlastní desky, nízká odolnost vůči venkovnímu rušení a obtížný servis údržbou.<br>iPC: Zbytečně extrémní cena (> 30 tis. Kč), dlouhý start po výpadku napájení a vysoká spotřeba. | **PLC / iPC:** Obrovská spotřeba (baterie by vydržela jen několik hodin), nemožnost sériové výroby za rozumnou cenu (vysoká cena HW), chybí nativní RF konektivita. | **MCU:** Chybí průmyslové napěťové úrovně (24 V), nutnost složitého vývoje vlastní desky, riziko nestability.<br>**iPC:** Složitá údržba pro elektrikáře, náchylnost operačního systému k zamrznutí při nepřetržitém provozu bez dozoru. | **MCU / PLC:** Naprosto nedostačující výpočetní výkon pro 4K video a neuronové sítě, absence podpory pro vysokorychlostní průmyslové kamery a databázové systémy. |
 
@@ -291,8 +291,11 @@ Jako vedoucí inženýr jste převzal projekt po nezkušeném brigádníkovi, kt
 2. **Návrh profesionálního nápravného řešení:**
    - Navrhněte, jakými certifikovanými průmyslovými komponenty tento celek nahradíte při zachování minimálního rozpočtu:
      - *Náhrada řídicí jednotky:* `...` *(např. certifikované průmyslové programovatelné relé s montáží na DIN lištu a krytím)*
+       **malé PLC (např. Siemens LOGO!) na DIN lištu, umístěné v oceloplechovém rozváděči s krytím minimálně IP54.**
      - *Náhrada napájecího zdroje:* `...` *(např. stabilizovaný průmyslový zdroj 24 V DC na DIN lištu s ochranou proti přepětí)*
-     - *Způsob zapojení bezpečnostního okruhu (Safety):* Jak musí být podle norem zapojeno tlačítko Emergency Stop (E-Stop)? Smí být spoléháno pouze na software mikrokontroléru? Zdůvodněte: `...`
+       **Stabilizovaný průmyslový spínaný zdroj 24 V DC (např. Mean Well řady MDR/NDR) na DIN lištu s integrovanou ochranou proti přepětí, zkratu a přetížení.**
+     - *Způsob zapojení bezpečnostního okruhu (Safety):* Jak musí být podle norem zapojeno tlačítko Emergency Stop (E-Stop)? Smí být spoléháno pouze na software mikrokontroléru?
+       Zdůvodněte: **Teprve dvoukanálový nouzový stop (E-Stop) s nuceně vedenými kontakty musí být zapojen přímo do certifikovaného bezpečnostního relé (nikdy nesmí být spoléháno pouze na software mikrokontroleru. Bezpečnostní relé fyzicky a hardwarově odpojí napájení silových stykačů ventilů zcela nezávisle na stavu procesoru či PLC)** 
 
 > **Kritéria hodnocení úlohy 5 (bodování a známka):**
 > - :star: **Odborná úroveň identifikace závad (35 %):** Přesná technická terminologie (např. elektromagnetická indukce, absence odrušovacích varistorů, skelný přechod PLA plastu při 60 °C, studené spoje a vyklepání konektorů vibracemi).
@@ -312,8 +315,7 @@ Jako vedoucí inženýr jste převzal projekt po nezkušeném brigádníkovi, kt
 :star2: **Bonusová otázka k úloze 5:**
 Proč hobby reléové moduly s optočleny určené pro Arduino v průmyslovém rozváděči často shoří nebo způsobí trvalé sepnutí zátěže (tzv. přivaření kontaktů), i když jmenovitý proud relé je 10 A a cívka stykače odebírá jen 0,5 A?
 
-*Vaše odpověď:*
-`...`
+**Hobby moduly nemají zhášecí komory. Při rozpínání kontaktů spínajících indukční zátěž (cívku ventilu) vzniká kvůli napěťové špičce elektrický oblouk. Ten lokálně roztaví kov kontaktů a způsobuje jejich trvalé přivaření (spečení), takže relé zůstane sepnuté i po odpojení.**
 
 ---
 
