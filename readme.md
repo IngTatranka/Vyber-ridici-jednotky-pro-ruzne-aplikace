@@ -195,8 +195,8 @@ Jste v roli projektanta automatizace. Zákazník poptává zhotovení řízení 
 #### Zadání technologického procesu a periferií:
 - **Snímače a vstupy:**
   - 3× plovákový hladinový spínač (havarijní spodní hladina proti chodu nasucho, zapínací hladina, havarijní přepad) – bezpotenciálový kontakt spínající 24 V DC.
-  - 1× hydrostatická ponorná sonda výšky hladiny v jímce – výstupní signál 4–20 mA.
-  - 1× termistorové ochranné relé přehřátí motoru čerpadla – poruchový kontakt 24 V DC.
+  - 1× hydrostatická ponorná sonda výšky hladiny v jímce – výstupní signál 4–20 mA.          **(analog)**
+  - 1× termistorové ochranné relé přehřátí motoru čerpadla – poruchový kontakt 24 V DC.      **(na vypínaní motoru)**
 - **Akční členy a výstupy:**
   - 2× stykač pro spouštění motorů hlavního a záložního čerpadla – spínání cívky stykače 230 V AC / 0,5 A.
   - 1× opticko-akustický výstražný maják – napájení 24 V DC / 0,3 A.
@@ -231,7 +231,8 @@ Jste v roli projektanta automatizace. Zákazník poptává zhotovení řízení 
 
 3. **Technické ověření z datasheetu:**
    - Zvládá zvolená jednotka garantovaný provoz při -20 °C? Doložte údaj z datasheetu: **ANO**
-   - Jakým způsobem spínáte cívku stykače 230 V AC (reléový výstup jednotky přímo, nebo přes pomocné mezilehlé relé)? Zdůvodněte: **Spínání je realizováno přes pomocná mezilehlá relé (interposing relays). Přestože reléové výstupy PLC dokážou spínat 230 V AC, použití mezilehlých relé zajišťuje vyšší galvanické oddělení, ochranu citlivých výstupů PLC před indukčními špičkami z cívek stykačů a snadnější servisní výměnu v případě opotřebení kontaktů vysokým spínacím počtem.**
+   - Jakým způsobem spínáte cívku stykače 230 V AC (reléový výstup jednotky přímo, nebo přes pomocné mezilehlé relé)?
+Zdůvodněte: **Spínání je realizováno přes pomocná mezilehlá relé (interposing relays). Přestože reléové výstupy PLC dokážou spínat 230 V AC, použití mezilehlých relé zajišťuje vyšší galvanické oddělení, ochranu citlivých výstupů PLC před indukčními špičkami z cívek stykačů a snadnější servisní výměnu v případě opotřebení kontaktů vysokým spínacím počtem.**
 
 4. **Krytí rozváděče:**
    - Jaké minimální krytí **IP skříně** zvolíte? Jak v rozváděči zajistíte provoz v mrazech -20 °C a v letních vedrech?
@@ -257,6 +258,7 @@ Jste v roli projektanta automatizace. Zákazník poptává zhotovení řízení 
 :star2: **Bonusová otázka k úloze 4:**
 Proč se u čerpadel v čistírnách odpadních vod a jímkách striktně upřednostňuje měření hladiny pomocí proudového signálu 4–20 mA před napěťovým signálem 0–10 V a proč se do jímky nepoužívá ultrazvukový senzor, pokud v ní vzniká hustá pěna?
 
+**(analogový signál)**
 **Proč 4–20 mA: Drží stabilní signál na dlouhých kabelech a při výpadku (0 mA) hned odhalí přerušený vodič.**
 
 **Proč ne ultrazvuk: Pěna na odpadní vodě pohlcuje zvukové vlny a senzor měří nepřesně.**
@@ -281,10 +283,10 @@ Jako vedoucí inženýr jste převzal projekt po nezkušeném brigádníkovi, kt
 
 | Oblast auditu | Zjištěná vada v amatérském návrhu | Fyzikální mechanismus selhání (proč to selže) | Následek pro stroj nebo obsluhu |
 | :--- | :--- | :--- | :--- |
-| **Elektromagnetická kompatibilita (EMC)** | `...` | Napěťové špičky z indukční zátěže hydraulických ventilů způsobí restart MCU... | `...` |
-| **Mechanická a teplotní odolnost** | PLA plast a montáž na těleso lisu | `...` | `...` |
-| **Konektivita a propojení vodičů** | DuPont propojovací kabely bez aretace | `...` | `...` |
-| **Funkční bezpečnost (Safety)** | Nouzový stop řešený softwarově v čipu | `...` | `...` |
+| **Elektromagnetická kompatibilita (EMC)** | Absence odrušení a stínění, použití citlivé vývojové desky v silovém prostředí | Napěťové špičky z indukční zátěže hydraulických ventilů (tzv. back-EMF) se šíří napájením i vzduchem a způsobí reset MCU nebo zamrznutí kódu. | Nekontrolovaný pohyb lisu, nečekané spuštění cyklu během vkládání materiálu. |
+| **Mechanická a teplotní odolnost** | PLA plastová krabička přišroubovaná přímo na těleso lisu | Nízká teplota skelného přechodu PLA plastu (cca 60 až 65 °C) vede k měknutí a deformaci. Rázové vibrace způsobují mechanickou únavu materiálu a prasknutí krytu. | Odhalení živých částí pod napětím, odpadnutí desky a zkrat na kostru stroje. |
+| **Konektivita a propojení vodičů** | DuPont propojovací kabely bez aretace v prostředí s vibracemi | Trvalé mechanické vibrace kovářského lisu způsobují postupné vyklepávání konektorů z pinů, vznik přechodových odporů (studené spoje) a přerušení signálu. | Ztráta kontroly nad akčními členy, chybné čtení senzorů, selhání logiky stroje. |
+| **Funkční bezpečnost (Safety)** | Nouzový stop řešený softwarově v MCU přes digitální pin D2 (interrupt) | Software může selhat, zacyklit se, zamrznout nebo může dojít k poškození vstupního obvodu pinů statickou elektřinou či přepětím. | Při selhání kódu v kritické situaci lis nezastaví a dojde k těžkému úrazu obsluhy. |
 
 2. **Návrh profesionálního nápravného řešení:**
    - Navrhněte, jakými certifikovanými průmyslovými komponenty tento celek nahradíte při zachování minimálního rozpočtu:
